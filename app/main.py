@@ -1,6 +1,8 @@
 from flask import Flask, json
 from werkzeug.exceptions import HTTPException
 
+from settings import HOST, PORT
+
 
 app = Flask(__name__)
 
@@ -19,3 +21,7 @@ def handle_exception(e):
     })
     response.content_type = "application/json"
     return response
+
+
+if __name__ == '__main__':
+    app.run(host=HOST, port=PORT, debug=True)
