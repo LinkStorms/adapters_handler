@@ -36,7 +36,6 @@ def handle_exception(e):
 def create_short_url_endpoint():
     url = request.json.get("url", "")
     alias = request.json.get("alias", "")
-    token = request.json.get("token", "")
     user_id = request.json.get("user_id", "")
     note = request.json.get("note", "")
     preferred_service = request.json.get("preferred_service", "")
@@ -46,7 +45,7 @@ def create_short_url_endpoint():
     except ValueError as e:
         return {"data": {}, "errors": [str(e)], "code": 422}, 422
     
-    response, service_name = create_short_url(service_url_list, url, alias, token)
+    response, service_name = create_short_url(service_url_list, url, alias, user_id)
     
     if response.get("errors"):
         return response, response["code"]

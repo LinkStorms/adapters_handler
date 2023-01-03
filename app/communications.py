@@ -3,13 +3,25 @@ import requests
 from utilities import get_data_layer_url, get_service_adapter_url_by_name
 
 
-def create_short_url(service_url_list, url, alias, token):
+def create_short_url(service_url_list, url, alias, user_id):
+    token_list_obj = get_token_list(user_id)
+    if token_list_obj.get("errors"):
+        return token_list_obj, None
+    token_list = token_list_obj["data"]["token_list"]
+    available_service_name_list = [token["name"] for token in token_list]
+    available_service_list = list(filter(lambda x: x[0] in available_service_name_list, service_url_list))
+    if not available_service_list:
+        return {"data": {}, "errors": ["No service available"], "code": 422}, None
+                
     body = {
         "url": url,
-        "alias": alias,
-        "token": token
+        "alias": alias
     }
-    for service_name, service_url in service_url_list:
+    for service_name, service_url in available_service_list:
+        for token in token_list:
+            if token["name"] == service_name:
+                body["token"] = token["token"]
+                break
         response = requests.post(service_url + "/create", json=body)
         if response.status_code == 200:
             return response.json(), service_name
