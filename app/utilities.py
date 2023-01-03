@@ -31,7 +31,7 @@ def get_data_layer_url():
 
 def get_service_adapter_url_list(preferred_service_name=None):
     if not preferred_service_name:
-        return [get_service_adapter_url(service_adapter) for service_adapter in SERVICE_ADAPTERS]
+        return [(service_adapter[0], get_service_adapter_url(service_adapter)) for service_adapter in SERVICE_ADAPTERS]
     preferred_service = get_service_adapter(preferred_service_name)
     service_adapters = copy.deepcopy(SERVICE_ADAPTERS)
     try:
@@ -39,7 +39,7 @@ def get_service_adapter_url_list(preferred_service_name=None):
         service_adapters.insert(0, preferred_service)
     except ValueError:
         pass
-    return [get_service_adapter_url(service_adapter) for service_adapter in service_adapters]
+    return [(service_adapter[0], get_service_adapter_url(service_adapter)) for service_adapter in service_adapters]
         
 
 

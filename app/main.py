@@ -42,12 +42,12 @@ def create_short_url_endpoint():
     except ValueError as e:
         return {"data": {}, "errors": [str(e)], "code": 422}, 422
     
-    response = create_short_url(service_url_list, url, alias, token)
+    response, service_name = create_short_url(service_url_list, url, alias, token)
     
     if response.get("errors"):
         return response, response["code"]
     
-    data_layer_response = save_short_url(url, response["data"]["short_url"], user_id, note)
+    data_layer_response = save_short_url(url, response["data"]["short_url"], user_id, note, service_name)
 
     if data_layer_response.get("errors"):
         return data_layer_response, data_layer_response["code"]
