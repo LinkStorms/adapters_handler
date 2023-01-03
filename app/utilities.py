@@ -1,3 +1,5 @@
+import requests
+
 from settings import (
     SERVICE_ADAPTERS,
     DATA_LAYER
@@ -25,3 +27,11 @@ def get_data_layer():
 def get_data_layer_url():
     data_layer = get_data_layer()
     return f"{data_layer[1]}:{data_layer[2]}"
+
+
+def is_service_reachable(service_name):
+    try:
+        response = requests.get(f"http://{get_service_adapter_url(service_name)}/")
+    except requests.exceptions.ConnectionError as e:
+        raise Exception(f"Service {service_name} is not reachable.\nError: {e}")
+    return True
