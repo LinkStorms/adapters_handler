@@ -1,5 +1,6 @@
 from flask import Flask, json, request
 from werkzeug.exceptions import HTTPException
+from flasgger import Swagger, swag_from
 
 from settings import HOST, PORT
 from utilities import get_service_adapter_url_list
@@ -15,6 +16,7 @@ from communications import (
 
 
 app = Flask(__name__)
+swagger = Swagger(app)
 
 
 @app.errorhandler(HTTPException)
@@ -34,6 +36,7 @@ def handle_exception(e):
 
 
 @app.route("/create_short_url", methods=["POST"])
+@swag_from("flasgger_docs/create_short_url_endpoint.yml")
 def create_short_url_endpoint():
     url = request.json.get("url", "")
     alias = request.json.get("alias", "")
