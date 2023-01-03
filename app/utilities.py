@@ -7,6 +7,8 @@ from settings import (
 
 
 def get_service_adapter(service_name):
+    if service_name == "data_layer":
+        return get_data_layer()
     for service_adapter in SERVICE_ADAPTERS:
         if service_adapter[0] == service_name:
             return service_adapter
@@ -31,7 +33,7 @@ def get_data_layer_url():
 
 def is_service_reachable(service_name):
     try:
-        response = requests.get(f"http://{get_service_adapter_url(service_name)}/")
+        response = requests.get({get_service_adapter_url(service_name)})
     except requests.exceptions.ConnectionError as e:
         raise Exception(f"Service {service_name} is not reachable.\nError: {e}")
     return True
