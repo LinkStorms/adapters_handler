@@ -10,6 +10,7 @@ from communications import (
     get_token_list,
     delete_short_url,
     delete_short_url_from_data_layer,
+    get_short_url_list,
 )
 
 
@@ -56,6 +57,15 @@ def create_short_url_endpoint():
         return data_layer_response, data_layer_response["code"]
     
     return {"data": data_layer_response["data"], "errors": [], "code": 200}, 200
+
+
+@app.route("/get_short_url_list", methods=["GET"])
+def get_short_url_list_endpoint():
+    user_id = request.args.get("user_id", "")
+    response = get_short_url_list(user_id)
+    if response.get("errors"):
+        return response, response["code"]
+    return {"data": response["data"], "errors": [], "code": 200}, 200
 
 
 @app.route("/delete_short_url", methods=["GET"])

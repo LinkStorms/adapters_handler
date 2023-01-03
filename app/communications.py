@@ -63,3 +63,8 @@ def delete_short_url(alias, token, service_name, data_layer_url=get_data_layer_u
 def delete_short_url_from_data_layer(short_url_id, user_id, data_layer_url=get_data_layer_url()):
     response = requests.get(data_layer_url + "/delete_short_url", params={"short_url_id": short_url_id, "user_id": user_id})
     return response.json()
+
+
+def get_short_url_list(user_id, data_layer_url=get_data_layer_url()):
+    response = requests.get(data_layer_url + "/short_url_list", params={"user_id": user_id})
+    return response.json()
