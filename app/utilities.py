@@ -21,6 +21,10 @@ def get_service_adapter_url(service_adapter):
     raise ValueError(f"Service adapter {service_adapter[0]} not found.")
 
 
+def get_service_adapter_url_by_name(service_name):
+    return get_service_adapter_url(get_service_adapter(service_name))
+
+
 def get_data_layer_url():
     return f"{DATA_LAYER[1]}:{DATA_LAYER[2]}"
 
