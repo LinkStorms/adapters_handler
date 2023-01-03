@@ -5,7 +5,11 @@ from settings import HOST, PORT
 from utilities import get_service_adapter_url_list
 from communications import (
     create_short_url,
-    save_short_url
+    save_short_url,
+    get_short_url,
+    get_token_list,
+    delete_short_url,
+    delete_short_url_from_data_layer,
 )
 
 
@@ -52,8 +56,42 @@ def create_short_url_endpoint():
     if data_layer_response.get("errors"):
         return data_layer_response, data_layer_response["code"]
     
-    return {"data": response["data"], "errors": [], "code": 200}, 200
+    return {"data": data_layer_response["data"], "errors": [], "code": 200}, 200
 
+
+@app.route("/delete_short_url", methods=["GET"])
+def delete_short_url_endpoint():
+    short_url_id = request.args.get("short_url_id", "")
+    user_id = request.args.get("user_id", "")
+    
+    short_url = get_short_url(short_url_id, user_id)
+
+    if short_url.get("errors"):
+        return short_url, short_url["code"]
+    
+    service_name = short_url["data"]["service"]
+
+    token_list_obj = get_token_list(user_id)
+    token_list = token_list_obj["data"]["token_list"]
+    found_token = ""
+    for token in token_list:
+        if token["name"] == service_name:
+            found_token = token["token"]
+            break
+    if not token:
+        return {"data": {}, "errors": ["No token found for service"], "code": 422}, 422
+    
+    response = delete_short_url(short_url["data"]["short_url"], found_token, service_name)
+
+    if response.get("errors"):
+        return response, response["code"]
+    
+    data_layer_response = delete_short_url_from_data_layer(short_url_id, user_id)
+
+    if data_layer_response.get("errors"):
+        return data_layer_response, data_layer_response["code"]
+    
+    return {"data": {}, "errors": [], "code": 200}, 200
 
 
 if __name__ == '__main__':
