@@ -56,7 +56,7 @@ def delete_short_url(alias, token, service_name, data_layer_url=get_data_layer_u
         "token": token
     }
     service_url = get_service_adapter_url_by_name(service_name)
-    response = requests.post(service_url + "/delete", json=body)
+    response = requests.delete(service_url + "/delete", json=body)
     return response.json()
 
 
