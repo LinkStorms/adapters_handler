@@ -33,7 +33,6 @@ pip install -r requirements.txt
 ```
 
 ## Running the Service
-
 After installing the dependencies, you can go to `app` directory and then run
 the service by executing the following command.
 ```bash
