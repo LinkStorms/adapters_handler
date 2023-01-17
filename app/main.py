@@ -14,9 +14,15 @@ from communications import (
     get_short_url_list,
 )
 
+template = {
+    "info":{
+        "title": "URL Handler",
+        "description": "URL handler for creating, deleting and listing URLs."
+    }
+}
 
 app = Flask(__name__)
-swagger = Swagger(app)
+swagger = Swagger(app, template=template)
 
 
 @app.errorhandler(HTTPException)
