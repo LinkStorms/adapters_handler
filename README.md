@@ -1,6 +1,14 @@
 # Adapters Handler
 This service is responsible for choosing a suitable service to shorten a URL.
 
+## Service Requirements
+This service is using the
+[`linkstorm_datalayer`](https://github.com/LinkStorms/linkstorm_datalayer),
+[`api_shortenrest`](https://github.com/LinkStorms/api_shortenrest),
+[`api_rebrandly`](https://github.com/LinkStorms/api_rebrandly), and
+[`api_tinyurl`](https://github.com/LinkStorms/api_tinyurl) services.
+Therefore, you need to run the them before running this service.
+
 ## Managing the Environment and Dependencies
 First install `virtualenv` with pip.
 ```bash
