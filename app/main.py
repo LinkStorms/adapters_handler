@@ -16,8 +16,8 @@ from communications import (
 
 template = {
     "info":{
-        "title": "URL Handler",
-        "description": "URL handler for creating, deleting and listing URLs."
+        "title": "Adapters Handler",
+        "description": "Adapters handler for creating, deleting and listing URLs."
     }
 }
 
